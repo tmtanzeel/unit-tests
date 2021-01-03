@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="row">
+        <div class="col-mg-6 col-lg-6 col-sm-6 result-wrapper">
+            <h5>Showing results for: {{resulttext}}</h5>
+            <div class="container-fluid pagination-controls">
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </div>
+        </div>
+        <div class="col-mg-6 col-lg-6 col-sm-6 search-wrapper">
+            <form class="form-inline waves-light" style="float: right;" (keydown)="keyDownFunction($event)" mdbWavesEffect>
+                <div class="md-form mt-0">
+                    <input class="form-control mr-sm-2" type="search" [(ngModel)]="text" [ngModelOptions]="{standalone: true}" placeholder="Search">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<hr>
+
+<div *ngIf="filteredArticles.length==0">
+    <h5>No results found! Try modifying your search.</h5>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4 mb-3" *ngFor="let article of filteredArticles | paginate: { itemsPerPage: 9, currentPage: p } ">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">{{article.title | ellipsis:55}}</h5>
+                <a class="btn btn-primary" [routerLink]="['/articles',article.articleid]">Read More</a>
+            </div>
+            <div class="card-footer text-muted">
+                {{article.date}}
+            </div>
+        </div>
+    </div>
+</div>
